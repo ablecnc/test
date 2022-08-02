@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<!-- begin header -->
+	<div id="header" th:fragment="headerFragment">
+		header.html <br>
+		상단 메뉴 <br><br>
+		<a th:href="@{/addMember}">01회원가입</a>
+		<!-- /* <%= request.getContextPath() %>/minsert  == th:href="@{/minsert}" */ -->
+		<a th:href="@{/memberList}">02회원전체검색</a>
+		<a href="#">03상품등록</a>
+		<a href="#">04상품전체검색</a>
+		<a th:href="@{/login}">05로그인</a>
+		<a th:href="@{/logout}">06로그아웃</a>
+		
+		<br>
+		<div th:unless="${session.SID == null}" style="text-align:right";>
+		<label>ID : [[${session.SID}]] | [[${session.SNAME}]] 님이 로그인 하셨습니다.</label>
+		</div>
+	</div>
+	<!-- end header -->
+</html>

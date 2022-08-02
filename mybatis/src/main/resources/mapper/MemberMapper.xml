@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="ksmart.mybatis.mapper.MemberMapper">
+  
+  <resultMap type="Member" id="memberResultMap">
+  	<result property="memberId" column="memberId"></result>
+  	<result property="memberPw" column="memberPw"></result>
+  	<result property="memberName" column="memberName"></result>
+  	<result property="memberLevel" column="memberLevel"></result>
+  	<result property="memberEmail" column="memberEmail"></result>
+  	<result property="memberRegDate" column="memberRegDate"></result>
+  </resultMap>
+  	
+  	<sql id= "getMemberListSql">
+  	select
+  			memberId,
+			memberPw,
+			memberName,			
+			memberEmail,
+			memberAddr,
+			memberRegDate
+  	</sql>
+  	
+  	<insert id="addMember" parameterType="Member">
+  		insert into stonedb.tb_member 
+		(
+			memberId,
+			memberPw,
+			memberName,
+			memberLevel,
+			memberEmail
+		) values (
+		 #{memberId}
+		,#{memberPw}
+		,#{memberName}
+		,#{memberLevel}
+		,#{memberEmail}
+		);
+  	</insert>
+  	
+  	<select id="getMemberInfoById" parameterType="String" resultType="Member"  resultMap="memberResultMap">
+  		<include refid="getMemberListSql"></include>
+		
+		FROM stonedb.tb_member 
+		WHERE memberId = #{memberId};  	
+  	</select>
+  	
+  	<update id="modifyMember" parameterType="Member">
+  		UPDATE stonedb.tb_member 
+  		<trim prefix="SET" suffixOverrides=",">
+  			<if test="memberPw != null and memberPw != ''.toString()">
+  				memberPw = #{memberPw},
+  			</if>
+  			<if test="memberName != null and memberName != ''.toString()">
+	  			memberName = #{memberName},
+	  		</if>
+  			<if test="memberEmail != null and memberEmail != ''.toString()">
+  				memberEmail = #{memberEmail},
+  				</if>
+  			<if test="memberAddr != null and memberAddr != ''.toString()">
+  				memberAddr = #{memberAddr},
+  			</if>
+  		</trim>
+  		WHERE memberId = #{memberId}
+  	</update>
+  	
+  	<delete id="removeMember" parameterType="String">
+  		DELETE FROM stonedb.tb_member where memberId = #{memberId};
+  	</delete>
+  		
+  	<select id="getMemberList" resultType="Member" parameterType="map" resultMap="memberResultMap">
+  		<include refid="getMemberListSql"></include>
+  	
+  		from stonedb.tb_member 
+  		
+  		<trim prefix="WHERE" prefixOverrides="AND | OR">
+  			<if test="searchkey != null and searchkey != ''.toString() and searchValue != null">
+  			   ${searchkey} like concat('%',#{searchValue},'%')
+  			</if>
+  		</trim>
+  	</select>
+  </mapper>

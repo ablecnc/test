@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<!-- th:replace="fragments/head.html(html확장자를 제외한 경로) :: (해당 html안에 선언된 조각변수이름) -->
+<head th:replace="fragments/head :: headFragment2"></head>
+<body>
+	<div id="wrapper">
+		<!-- begin header -->
+		<div th:replace="fragments/header :: headerFragment"></div>
+		<!-- end header -->
+		
+		<!-- begin leftmenu -->
+		<!-- <div id="leftcolumn">
+				leftmenu.html <br>
+				왼쪽메뉴 <br><br>
+			 </div> -->
+		<div th:replace="fragments/leftmenu :: leftmenuFragment"></div>
+		<!-- end leftmenu -->
+		
+		<!-- begin contents layout:fragment 선언-->
+		<div id="rightcolumn" style="overflow: scroll;">		
+			<th:block layout:fragment="customContents"></th:block>
+		</div>	
+		<!-- end contents -->
+		
+		<!-- begin footer -->
+		<div th:replace="fragments/footer :: footerFragment"></div>
+		<!-- end footer -->
+	</div>
+</body>
+</html>
